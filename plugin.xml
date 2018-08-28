@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova.plugins.sdkproxy" version="0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>cordova-plugin-sdkproxy</name>
+    <js-module name="SdkProxy" src="www/sdkproxy.js">
+        <clobbers target="cordova.plugins.sdkproxy"/>
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="SdkProxy">
+                <param name="android-package" value="cordova.plugins.sdkproxy.SdkProxy"/>
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"/>
+        <source-file src="src/android/SdkProxy.java"
+                     target-dir="src/com/cordova/plugins/sdkproxy/SdkProxy"/>
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="SdkProxy">
+                <param name="ios-package" value="SdkProxy"/>
+            </feature>
+        </config-file>
+        <source-file src="src/ios/sdkproxy.m"/>
+    </platform>
+    <platform name="browser">
+        <js-module src="www/browser/sdkproxy.js" name="SdkProxyJS">
+            <clobbers target="cordova.plugins.sdkproxy" />
+        </js-module>
+    </platform>
+</plugin>
