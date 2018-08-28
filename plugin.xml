@@ -7,17 +7,24 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="SdkProxy">
-                <param name="android-package" value="cordova.plugins.sdkproxy.SdkProxy"/>
+                <param name="android-package" value="cordova.plugins.sdkproxy.SdkProxyPlugin"/>
+                <param name="onload" value="true" />
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"/>
-        <source-file src="src/android/SdkProxy.java"
-                     target-dir="src/com/cordova/plugins/sdkproxy/SdkProxy"/>
+
+        <lib-file src="lib/android/sdkproxy_150619.jar" />
+
+        <source-file src="src/android/SdkProxyPlugin.java" target-dir="src/com/cordova/plugins/sdkproxy"/>
+        <source-file src="src/android/MyApplication.java" target-dir="src/com/j1game/pay"/>
+        <source-file src="src/android/MyCrashHandler.java" target-dir="src/com/j1game/pay"/>
+        <source-file src="src/android/MyListener.java" target-dir="src/com/j1game/pay"/>
+        <source-file src="src/android/MyPay.java" target-dir="src/com/j1game/pay"/>
     </platform>
     <platform name="ios">
         <config-file parent="/*" target="config.xml">
             <feature name="SdkProxy">
-                <param name="ios-package" value="SdkProxy"/>
+                <param name="ios-package" value="SdkProxyPlugin"/>
             </feature>
         </config-file>
         <source-file src="src/ios/sdkproxy.m"/>

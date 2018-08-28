@@ -2,14 +2,14 @@
 
 #import <Cordova/CDV.h>
 
-@interface cordova-plugin-sdkproxy : CDVPlugin {
+@interface SdkProxyPlugin : CDVPlugin {
   // Member variables go here.
 }
 
 - (void)coolMethod:(CDVInvokedUrlCommand*)command;
 @end
 
-@implementation cordova-plugin-sdkproxy
+@implementation SdkProxyPlugin
 
 - (void)coolMethod:(CDVInvokedUrlCommand*)command
 {

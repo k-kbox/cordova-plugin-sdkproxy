@@ -10,7 +10,27 @@ import org.json.JSONObject;
 /**
  * This class echoes a string called from JavaScript.
  */
-public class SdkProxy extends CordovaPlugin {
+public class SdkProxyPlugin extends CordovaPlugin {
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+        // your init code here
+    }
+
+    @Override
+    public void onResume(boolean multitasking) {
+        com.myapp.sdkproxy.SdkProxy.onResume(cordova.getActivity());
+    }
+
+    @Override
+    public void onPause(boolean multitasking) {
+        com.myapp.sdkproxy.SdkProxy.onPause(cordova.getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        com.myapp.sdkproxy.SdkProxy.onDestroy();
+    }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -27,7 +47,13 @@ public class SdkProxy extends CordovaPlugin {
     }
 
     private void init(CallbackContext callbackContext) {
-
+        com.myapp.sdkproxy.SdkProxy.init(cordova.getActivity());
+        String appid = com.myapp.sdkproxy.SdkProxy.getAppid();
+        String chid = com.myapp.sdkproxy.Sdkproxy.getChid();
+        JSONObject json = new JSONObject();
+        json.put("appid", appid);
+        json.put("chid", chid);
+        callbackContext.success(json.toString());
     }
 
     private void coolMethod(String message, CallbackContext callbackContext) {
