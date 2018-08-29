@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova.plugins.sdkproxy" version="0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0">
-    <name>cordova-plugin-sdkproxy</name>
+<plugin id="cordova-plugin-sdkproxy" version="0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>sdkproxy</name>
     <js-module name="SdkProxy" src="www/sdkproxy.js">
         <clobbers target="cordova.plugins.sdkproxy"/>
     </js-module>
