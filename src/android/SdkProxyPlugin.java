@@ -51,7 +51,7 @@ public class SdkProxyPlugin extends CordovaPlugin {
     private void init(CallbackContext callbackContext) {
         com.myapp.sdkproxy.SdkProxy.init(cordova.getActivity());
         String appid = com.myapp.sdkproxy.SdkProxy.getAppid();
-        String chid = com.myapp.sdkproxy.SdkProxy.getChid();
+        String chid = com.myapp.sdkproxy.SdkProxy.getChannel();
         JSONObject json = new JSONObject();
         json.put("appid", appid);
         json.put("chid", chid);
