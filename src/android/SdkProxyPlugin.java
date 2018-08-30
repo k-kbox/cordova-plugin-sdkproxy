@@ -48,14 +48,50 @@ public class SdkProxyPlugin extends CordovaPlugin {
         return false;
     }
 
+    /**
+     * 获取应用程序名称
+     */
+    private String getAppName(Context context)
+    {
+        try
+        {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    context.getPackageName(), 0);
+            int labelRes = packageInfo.applicationInfo.labelRes;
+            return context.getResources().getString(labelRes);
+        } catch (NameNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     private void init(CallbackContext callbackContext) {
         com.myapp.sdkproxy.SdkProxy.init(cordova.getActivity());
         String appid = com.myapp.sdkproxy.SdkProxy.getAppid();
         String chid = com.myapp.sdkproxy.SdkProxy.getChannel();
+
+        String app_name = this.getAppName(cordova.getActivity());
+        String package_name = com.myapp.sdkproxy.SdkProxy.getPackageName();
+
+        String version_code = com.myapp.sdkproxy.SdkProxy.getAppVersionCode();
+        String version_name = com.myapp.sdkproxy.SdkProxy.getAppVersionName();
+
+        String td_appid = com.myapp.sdkproxy.SdkProxy.getAppInfo(".", "talkingdata.appid");
+        String wx_appid = com.myapp.sdkproxy.SdkProxy.getAppInfo(".", "wx.appid");
+
         JSONObject json = new JSONObject();
         try {
             json.put("appid", appid);
             json.put("chid", chid);
+            json.put("app_name", app_name);
+            json.put("package_name", package_name);
+            json.put("version_code", version_code);
+            json.put("version_name", version_name);
+            json.put("td_appid", td_appid);
+            json.put("wx_appid", wx_appid);
         } catch (Exception e) {
         }
         callbackContext.success(json.toString());
