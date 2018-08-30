@@ -60,7 +60,7 @@ public class SdkProxyPlugin extends CordovaPlugin {
                     context.getPackageName(), 0);
             int labelRes = packageInfo.applicationInfo.labelRes;
             return context.getResources().getString(labelRes);
-        } catch (NameNotFoundException e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
