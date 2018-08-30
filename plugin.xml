@@ -14,6 +14,8 @@
         <config-file parent="/*" target="AndroidManifest.xml"/>
 
         <lib-file src="lib/android/sdkproxy_150619.jar" />
+        <lib-file src="lib/android/TalkingDataGA.jar" />
+        <lib-file src="lib/android/umeng-analytics-v6.0.4.jar" />
 
         <source-file src="src/android/SdkProxyPlugin.java" target-dir="src/com/cordova/plugins/sdkproxy"/>
         <source-file src="src/android/MyApplication.java" target-dir="src/com/j1game/pay"/>
