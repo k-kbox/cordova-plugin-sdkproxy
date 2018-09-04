@@ -1,8 +1,3 @@
-var exec = require('cordova/exec');
-
-exports.coolMethod = function (arg0, success, error) {
-    // exec(success, error, 'SdkProxy', 'coolMethod', [arg0]);
-};
 
 exports.init = function (success, error) {
     let ret = {
@@ -12,3 +7,34 @@ exports.init = function (success, error) {
   success(JSON.stringify(ret))
 }
 
+exports.wxlogin = function(params, success, error) {
+  let ret = {
+    code: 0,
+    msg: '登录成功',
+  }
+  success(JSON.stringify(ret))
+}
+
+exports.pay = function (params, success, error) {
+  let ret = {
+    code: 0,
+    msg: '支付成功',
+  }
+  success(JSON.stringify(ret))
+};
+
+exports.wxpay = function(params, success, error) {
+  let ret = {
+    code: 0,
+    msg: '支付成功',
+  }
+  success(JSON.stringify(ret))
+}
+
+exports.alipay = function(params, success, error) {
+  let ret = {
+    code: 0,
+    msg: '支付成功',
+  }
+  success(JSON.stringify(ret))
+}

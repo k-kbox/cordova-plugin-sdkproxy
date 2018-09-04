@@ -1,4 +1,4 @@
-package cordova.plugins.sdkproxy;
+package com.cordova.plugins.sdkproxy;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -13,6 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.myapp.sdkproxy.SdkProxy;
+
 /**
  * This class echoes a string called from JavaScript.
  */
@@ -21,21 +23,22 @@ public class SdkProxyPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         // your init code here
+        SdkProxy.init(cordova.getContext().getApplicationContext());
     }
 
     @Override
     public void onResume(boolean multitasking) {
-        com.myapp.sdkproxy.SdkProxy.onResume(cordova.getActivity());
+        SdkProxy.onResume(cordova.getActivity());
     }
 
     @Override
     public void onPause(boolean multitasking) {
-        com.myapp.sdkproxy.SdkProxy.onPause(cordova.getActivity());
+        SdkProxy.onPause(cordova.getActivity());
     }
 
     @Override
     public void onDestroy() {
-        com.myapp.sdkproxy.SdkProxy.onDestroy();
+        SdkProxy.onDestroy();
     }
 
     @Override
@@ -49,7 +52,84 @@ public class SdkProxyPlugin extends CordovaPlugin {
             this.init(callbackContext);
             return true;
         }
+        if (action.equals("pay")) {
+            this.pay(args, callbackContext);
+            return true;
+        }
+        if (action.equals("wxlogin")) {
+            this.wxlogin(args, callbackContext);
+            return true;
+        }
+        if (action.equals("wxpay")) {
+            this.wxpay(args, callbackContext);
+            return true;
+        }
+        if (action.equals("alipay")) {
+            this.alipay(args, callbackContext);
+            return true;
+        }
         return false;
+    }
+
+    private void pay(JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        JSONObject params = args.getJSONObject(0);
+        SdkProxy.pay(cordova.getActivity(), params.optString("payid", ""), new OnPayListener() {
+            @Override
+            public void onPaySuccess() {
+                callbackContext.success("{\"code\":0,\"msg\":\"支付成功\"}");
+            }
+
+            @Override
+            public void onPayCanceled() {
+                callbackContext.error("{\"code\":-1,\"msg\":\"取消支付\"}");
+            }
+
+            @Override
+            public void onPayFailure(int i, String s) {
+                callbackContext.error("{\"code\":" + i + ",\"msg\":\"" + s + "\"}");
+            }
+        });
+    }
+
+    private void wxlogin(JSONArray args, CallbackContext callbackContext) {
+
+    }
+
+    private void wxpay(JSONArray args, CallbackContext callbackContext) {
+
+    }
+
+    private void alipay(JSONArray args, CallbackContext callbackContext) {
+
+    }
+
+    private void init(CallbackContext callbackContext) {
+        SdkProxy.init(cordova.getActivity());
+        String appid = SdkProxy.getAppid();
+        String chid = SdkProxy.getChannel();
+
+        String app_name = this.getAppName(cordova.getActivity());
+        String package_name = SdkProxy.getPackageName();
+
+        String version_code = SdkProxy.getAppVersionCode();
+        String version_name = SdkProxy.getAppVersionName();
+
+        String td_appid = SdkProxy.getAppInfo(".", "talkingdata.appid");
+        String wx_appid = SdkProxy.getAppInfo(".", "wx.appid");
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("appid", appid);
+            json.put("chid", chid);
+            json.put("app_name", app_name);
+            json.put("package_name", package_name);
+            json.put("version_code", version_code);
+            json.put("version_name", version_name);
+            json.put("td_appid", td_appid);
+            json.put("wx_appid", wx_appid);
+        } catch (Exception e) {
+        }
+        callbackContext.success(json.toString());
     }
 
     /**
@@ -69,43 +149,5 @@ public class SdkProxyPlugin extends CordovaPlugin {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    private void init(CallbackContext callbackContext) {
-        com.myapp.sdkproxy.SdkProxy.init(cordova.getActivity());
-        String appid = com.myapp.sdkproxy.SdkProxy.getAppid();
-        String chid = com.myapp.sdkproxy.SdkProxy.getChannel();
-
-        String app_name = this.getAppName(cordova.getActivity());
-        String package_name = com.myapp.sdkproxy.SdkProxy.getPackageName();
-
-        String version_code = com.myapp.sdkproxy.SdkProxy.getAppVersionCode();
-        String version_name = com.myapp.sdkproxy.SdkProxy.getAppVersionName();
-
-        String td_appid = com.myapp.sdkproxy.SdkProxy.getAppInfo(".", "talkingdata.appid");
-        String wx_appid = com.myapp.sdkproxy.SdkProxy.getAppInfo(".", "wx.appid");
-
-        JSONObject json = new JSONObject();
-        try {
-            json.put("appid", appid);
-            json.put("chid", chid);
-            json.put("app_name", app_name);
-            json.put("package_name", package_name);
-            json.put("version_code", version_code);
-            json.put("version_name", version_name);
-            json.put("td_appid", td_appid);
-            json.put("wx_appid", wx_appid);
-        } catch (Exception e) {
-        }
-        callbackContext.success(json.toString());
-    }
-
-    private void coolMethod(String message, CallbackContext callbackContext) {
-        if (message != null && message.length() > 0) {
-            callbackContext.success(message);
-        } else {
-            callbackContext.error("Expected one non-empty string argument.");
-        }
     }
 }
