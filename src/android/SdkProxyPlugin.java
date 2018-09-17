@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.myapp.sdkproxy.SdkProxy;
+import com.myapp.sdkproxy.OnPayListener;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -43,11 +44,6 @@ public class SdkProxyPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("coolMethod")) {
-            String message = args.getString(0);
-            this.coolMethod(message, callbackContext);
-            return true;
-        }
         if (action.equals("init")) {
             this.init(callbackContext);
             return true;
