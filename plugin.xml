@@ -13,7 +13,7 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"/>
 
-        <lib-file src="lib/android/SdkProxy.jar" />
+        <lib-file src="lib/android/sdkproxy_150619.jar" />
 
         <source-file src="src/android/SdkProxyPlugin.java" target-dir="src/com/cordova/plugins/sdkproxy"/>
     </platform>
