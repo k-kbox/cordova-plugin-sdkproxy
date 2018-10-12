@@ -20,25 +20,37 @@ import com.myapp.sdkproxy.OnPayListener;
  * This class echoes a string called from JavaScript.
  */
 public class SdkProxyPlugin extends CordovaPlugin {
+    private static final String TAG = "com.cordova.plugins.sdkproxy.SdkProxy";
+
+    //@Override
+    protected void pluginInitialize() {
+        super.pluginInitialize();
+        Log.d(TAG, "plugin initialized.");
+    }
+
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         // your init code here
         SdkProxy.init(cordova.getContext().getApplicationContext());
+        Log.d(TAG, "initialized.");
     }
 
     @Override
     public void onResume(boolean multitasking) {
+        Log.d(TAG, "onResume.");
         SdkProxy.onResume(cordova.getActivity());
     }
 
     @Override
     public void onPause(boolean multitasking) {
+        Log.d(TAG, "onPause.");
         SdkProxy.onPause(cordova.getActivity());
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy.");
         SdkProxy.onDestroy();
     }
 
@@ -68,21 +80,27 @@ public class SdkProxyPlugin extends CordovaPlugin {
     }
 
     private void pay(JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        JSONObject params = args.getJSONObject(0);
-        SdkProxy.pay(cordova.getActivity(), params.optString("payid", ""), new OnPayListener() {
-            @Override
-            public void onPaySuccess() {
-                callbackContext.success("{\"code\":0,\"msg\":\"支付成功\"}");
-            }
+        cordova.getActivity().runOnUiThread(new Runnable() {
 
             @Override
-            public void onPayCanceled() {
-                callbackContext.error("{\"code\":-1,\"msg\":\"取消支付\"}");
-            }
+            public void run() {
+                JSONObject params = args.getJSONObject(0);
+                SdkProxy.pay(cordova.getActivity(), params.optString("payid", ""), new OnPayListener() {
+                    @Override
+                    public void onPaySuccess() {
+                        callbackContext.success("{\"code\":0,\"msg\":\"支付成功\"}");
+                    }
 
-            @Override
-            public void onPayFailure(int i, String s) {
-                callbackContext.error("{\"code\":" + i + ",\"msg\":\"" + s + "\"}");
+                    @Override
+                    public void onPayCanceled() {
+                        callbackContext.error("{\"code\":-1,\"msg\":\"取消支付\"}");
+                    }
+
+                    @Override
+                    public void onPayFailure(int i, String s) {
+                        callbackContext.error("{\"code\":" + i + ",\"msg\":\"" + s + "\"}");
+                    }
+                });
             }
         });
     }
@@ -110,7 +128,7 @@ public class SdkProxyPlugin extends CordovaPlugin {
         String version_code = SdkProxy.getAppVersionCode();
         String version_name = SdkProxy.getAppVersionName();
 
-        String td_appid = SdkProxy.getAppInfo(".", "talkingdata.appid");
+        String td_appid = SdkProxy.getAppInfo(".", "td.appid");
         String wx_appid = SdkProxy.getAppInfo(".", "wx.appid");
 
         JSONObject json = new JSONObject();
