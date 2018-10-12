@@ -79,7 +79,7 @@ public class SdkProxyPlugin extends CordovaPlugin {
         return false;
     }
 
-    private void pay(JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    private void pay(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         Log.d(TAG, "pay [args: " + args.toString() + "]");
         cordova.getActivity().runOnUiThread(new Runnable() {
 
