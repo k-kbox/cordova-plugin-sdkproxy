@@ -87,23 +87,29 @@ public class SdkProxyPlugin extends CordovaPlugin {
 
             @Override
             public void run() {
-                JSONObject params = args.getJSONObject(0);
-                SdkProxy.pay(cordova.getActivity(), params.optString("payid", ""), new OnPayListener() {
-                    @Override
-                    public void onPaySuccess() {
-                        callbackContext.success("{\"code\":0,\"msg\":\"支付成功\"}");
-                    }
+                try {
+                    JSONObject params = args.getJSONObject(0);
+                    SdkProxy.pay(cordova.getActivity(), params.optString("payid", ""), new OnPayListener() {
+                        @Override
+                        public void onPaySuccess() {
+                            callbackContext.success("{\"code\":0,\"msg\":\"支付成功\"}");
+                        }
 
-                    @Override
-                    public void onPayCanceled() {
-                        callbackContext.error("{\"code\":-1,\"msg\":\"取消支付\"}");
-                    }
+                        @Override
+                        public void onPayCanceled() {
+                            callbackContext.error("{\"code\":-1,\"msg\":\"取消支付\"}");
+                        }
 
-                    @Override
-                    public void onPayFailure(int i, String s) {
-                        callbackContext.error("{\"code\":" + i + ",\"msg\":\"" + s + "\"}");
-                    }
-                });
+                        @Override
+                        public void onPayFailure(int i, String s) {
+                            callbackContext.error("{\"code\":" + i + ",\"msg\":\"" + s + "\"}");
+                        }
+                    });
+                }
+                catch (Exception e) {
+			        e.printStackTrace();
+                    callbackContext.error("{\"code\":-1,\"msg\":\"" + e.getMessage() + "\"}");
+                }
             }
         });
     }
