@@ -128,8 +128,12 @@ public class SdkProxyPlugin extends CordovaPlugin {
 
     private void init(CallbackContext callbackContext) {
         SdkProxy.init(cordova.getActivity());
+
         String appid = SdkProxy.getAppid();
+
         String chid = SdkProxy.getChannel();
+
+        String chtype = SdkProxy.getAppInfo(".", "chtype");
 
         String app_name = this.getAppName(cordova.getActivity());
         String package_name = SdkProxy.getPackageName();
@@ -143,8 +147,8 @@ public class SdkProxyPlugin extends CordovaPlugin {
         JSONObject json = new JSONObject();
         try {
             json.put("appid", appid);
-            json.put("chid", chid);
             json.put("app_name", app_name);
+            json.put("chtype", chtype);
             json.put("package_name", package_name);
             json.put("version_code", version_code);
             json.put("version_name", version_name);
