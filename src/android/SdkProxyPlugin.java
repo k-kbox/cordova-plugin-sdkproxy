@@ -1,6 +1,7 @@
 package com.cordova.plugins.sdkproxy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
@@ -54,6 +55,21 @@ public class SdkProxyPlugin extends CordovaPlugin {
     public void onDestroy() {
         Log.d(TAG, "onDestroy.");
         SdkProxy.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+      SdkProxy.onStop();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+      SdkProxy.onNewIntent(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      SdkProxy.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
