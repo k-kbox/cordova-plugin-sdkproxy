@@ -35,7 +35,11 @@ public class SdkProxyPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         // your init code here
-        SdkProxy.init(cordova.getContext().getApplicationContext());
+        // SdkProxy.init(cordova.getContext().getApplicationContext());
+
+        SdkProxy.init(cordova.getActivity());
+        SdkProxy.onCreate(cordova.getActivity());
+
         Log.d(TAG, "initialized.");
     }
 
